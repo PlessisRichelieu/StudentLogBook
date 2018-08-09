@@ -1,0 +1,207 @@
+#include <iostream>
+
+using namespace std;
+
+struct Student {
+
+	int id;
+	char* fname = new char;
+	char* mname = new char;
+	char* lname = new char;
+	long long int EGN;
+	struct Student *next;
+
+}*start = NULL;
+
+
+void fill();
+
+void sort();
+
+void print();
+
+void S_byname();
+
+void S_byegn();
+
+
+
+
+void main() {
+	cout << "Welcome to our program for easily managing student records" << endl << endl;
+	cout << "Please enter a list of students you would like to manipulate with our program" << endl;
+	fill();
+	int ch1;
+	do {
+		cout << "Choose what operation you would like to perform next" << endl << endl;
+
+		cout << "Press 1 to display the list of students" << endl << endl;
+		cout << "Press 2 to search for a student's information using his/her names" << endl << endl;
+		cout << "Press 3 to search for a student's information using his/her egn" << endl << endl;
+		cout << "Press 4 to Exit" << endl << endl;
+		cin >> ch1;
+		switch (ch1)
+		{
+
+		case 1:
+			print();
+			break;
+
+		case 2:
+			S_byname();
+			break;
+		case 3:
+			S_byegn();
+			break;
+
+
+		default:
+			cout << "Your choice is invalid" << endl;
+			break;
+		}
+	} while (ch1 != 4);
+}
+
+
+
+void fill() {
+
+
+
+	char x;
+	do {
+		struct Student *ns = new Student;
+		cout << "enter id" << endl;
+		cin >> ns->id;
+		cout << "Enter First name" << endl;
+		cin >> ns->fname;
+		cout << "Enter Middle name" << endl;
+		cin >> ns->mname;
+		cout << "Enter Last name" << endl;
+		cin >> ns->lname;
+		cout << "Enter EGN";
+		cin >> ns->EGN;
+
+		ns->next = NULL;
+
+		if (start == NULL) {
+			start = ns;
+
+		}
+		else {
+
+			ns->next = start;
+			start = ns;
+		}
+
+		cout << "Would you like to contiue? Y/N?";
+		cin >> x;
+	}
+
+
+	while (x != 'N');
+
+}
+
+
+void sort() {
+
+	struct Student *ptr;
+	ptr = start;
+	struct Student *temp = start->next;
+
+	while (ptr != NULL) {
+
+
+
+		if (strcmp(ptr->fname, temp->fname) > 0) {
+
+			int t_id = ptr->id;
+			char *fnm_t = ptr->fname;
+			char *mnm_t = ptr->mname;
+			char *lnm_t = ptr->lname;
+			long long int egn_t = ptr->EGN;
+
+			ptr->id = temp->id;
+			ptr->fname = temp->fname;
+			ptr->mname = temp->mname;
+			ptr->lname = temp->lname;
+			ptr->EGN = temp->EGN;
+
+			temp->id = t_id;
+			temp->fname = fnm_t;
+			temp->mname = mnm_t;
+			temp->lname = lnm_t;
+			temp->EGN = egn_t;
+
+		}
+
+		ptr = ptr->next;
+	}
+
+
+}
+
+void print() {
+	if (start != NULL) {
+		sort();
+
+	}
+	struct Student *ptr;
+	ptr = start;
+
+	while (ptr != NULL) {
+
+		cout << ptr->id << "\t" << ptr->fname << "\t" << ptr->mname << "\t" << ptr->lname << "\t" << ptr->EGN << endl;
+
+		ptr = ptr->next;
+	}
+	cout << endl;
+
+}
+
+
+void S_byegn() {
+	long long int key;
+	struct Student *ptr = new Student;
+	ptr = start;
+	cout << "enter the EGN of the student";
+	cin >> key;
+	cout << "No" << "\t" << " " << "Fname" << "\t" << " " << "Mname" << "\t" << " " << "Lname" << "\t" << " " << "EGN" << endl;
+	cout << "----------------------------------------------------------------------------" << endl;
+	while (ptr != NULL) {
+
+		if (key == ptr->EGN)
+			cout << ptr->id << "\t" << ptr->fname << "\t" << ptr->mname << "\t" << ptr->lname << "\t" << ptr->EGN << "\t" << endl;
+		ptr = ptr->next;
+
+
+	}
+
+
+}
+
+void S_byname() {
+
+	struct Student *ptr = start;
+
+	char* name = new char;
+	cout << "Enter the student's name" << endl;
+	cin >> name;
+	cout << "No" << "\t" << " " << "Fname" << "\t" << " " << "Mname" << "\t" << " " << "Lname" << "\t" << " " << "EGN" << endl;
+	cout << "----------------------------------------------------------------------------" << endl;
+	while (ptr != NULL) {
+
+
+		if (strstr(ptr->fname, name) || strstr(ptr->lname, name) || strstr(ptr->mname, name))
+
+			cout << ptr->id << "\t" << ptr->fname << "\t" << ptr->mname << "\t" << ptr->lname << "\t" << ptr->EGN << "\t" << endl;
+		ptr = ptr->next;
+
+
+	}
+
+}
+
+
+
